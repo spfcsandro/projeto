@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="css/principal.css" />
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" size="54">
+			<ui:include src="includes/top.xhtml" />
+		</p:layoutUnit>
+
+		<p:layoutUnit position="west" size="210" header="Menu Principal" resizable="true" closable="false" collapsible="true">
+			<ui:include src="includes/menu.xhtml"/>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+			<h:form id="form">
+			<h:panelGrid id="barraBotao" styleClass="barraBotao">
+				<p:toolbar styleClass="barraBotao">
+					<p:toolbarGroup align="left">
+						<p:commandButton id="btnNovo" value="Novo" icon="ui-icon-document"  action="#{userSession.novo}"  update=":form:panel" ajax="false" immediate="true"/>
+						<p:separator />
+						<p:commandButton value="#{userSession.usuarioSelecionado == null ? 'Salvar': 'Atualizar'}" icon="ui-icon-disk"
+							action="#{userSession.salvar}" update=":formDataTable:dataTable :form" />
+						<p:separator />
+                        <p:commandButton id="btnExcluir" value="Excluir" disabled="#{userSession.usuarioSelecionado == null ? true : false}"
+							icon="ui-icon-trash"  oncomplete="confirmation.show()"  immediate="true"/>
+					</p:toolbarGroup>
+				</p:toolbar>
+
+				<p:dialog id="Excluir" header="Excluir" widgetVar="confirmation">
+					<h:outputText
+						value="Você gostaria de Excluir o #{userSession.user.nomeUsuario}?" />
+					<p:separator />
+					<p:commandButton id="confirm" value="Sim"
+						oncomplete="confirmation.hide()"
+						actionListener="#{userSession.deletar}" update=":formDataTable:dataTable :form:panel" ajax="false" />
+					<p:commandButton id="decline" value="Não"
+						onclick="confirmation.hide()" type="button" />
+
+				</p:dialog>
+			   </h:panelGrid>
+			   <p:fieldset legend="Cadastro Usuário" styleClass="fildSet">
+
+					<h:panelGrid columns="2" cellpadding="5" id="panel">
+						<h:outputText value="Nome: " />
+						<p:inputText id="txtUsuario" value="#{userSession.user.nomeUsuario}" label="Usuário" required="true" converter="EmptyToNullConverter"/>
+						<h:outputText value="Usuário: " />
+						<p:inputText id="txtUsername" value="#{userSession.user.username}" label="Usuário" required="trues" converter="EmptyToNullConverter"/>
+						<h:outputText value="Senha: " />
+						<p:inputText id="txtPassword" value="#{userSession.user.password}" label="Senha" type="password" required="trues" converter="EmptyToNullConverter"/>
+					</h:panelGrid>
+
+				</p:fieldset>
+			</h:form>
+		</p:layoutUnit> 
+		
+		<p:layoutUnit position="south" size="250" header="Arquivos Salvos" minSize="250"  resizable="true" collapsible="true" effect="drop">
+			<h:form id="formDataTable">
+				<p:dataTable id="dataTable" var="usuario" widgetVar="usuarioTable"
+							value="#{userSession.listaUsuario}" border="1" cellspacing="0"
+							cellpadding="2" paginator="true" rows="5" paginatorPosition="top"
+							rowKey="#{usuario.id}"
+							rowsPerPageTemplate="5,10,30"
+							selection="#{userSession.usuarioSelecionado}"
+							selectionMode="single"
+							emptyMessage="Registro não encontrado, Favor verificar !">
+		
+							<p:ajax event="rowSelect"
+								listener="#{userSession.onRowSelect}"
+								update=":form" />
+							<p:ajax event="rowUnselect"
+								listener="#{userSession.onRowUnselect}"
+								update=":form" />
+		
+							<f:facet name="footer">
+								<h:commandLink>  
+						            <p:graphicImage value="css/imagens/pdf.png" styleClass="imgPDF"/> 
+						            <p:dataExporter type="pdf" target="dataTable" fileName="listaUsuraio"/>  
+						        </h:commandLink>
+						         
+								<h:commandLink>  
+						            <p:graphicImage value="css/imagens/excel.png" styleClass="imgPDF"/> 
+						            <p:dataExporter type="xls" target="dataTable" fileName="listaUsuario"/>  
+						        </h:commandLink>
+						         
+								<h:commandLink>  
+						            <p:graphicImage value="css/imagens/csv.png" styleClass="imgPDF"/> 
+						            <p:dataExporter type="csv" target="dataTable" fileName="listaUsuario"/>  
+						        </h:commandLink> 
+							</f:facet>
+		
+							<p:column headerText="Nome:" sortBy="nomeUsuario" filterBy="#{usuario.nomeUsuario}">
+								<h:outputText value="#{usuario.nomeUsuario}" />
+								<f:facet name="header">
+									<h:outputText value="Nome" />
+								</f:facet>
+							</p:column>
+							
+							<p:column headerText="Usuário" sortBy="username" filterBy="#{usuario.username}">
+								<h:outputText value="#{usuario.username}" />
+								<f:facet name="header">
+									<h:outputText value="Usuário" />
+								</f:facet>
+							</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:layoutUnit>  
+	</p:layout>
+</h:body>
+</html>

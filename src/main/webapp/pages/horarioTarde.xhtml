@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="css/principal.css" />
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" size="47">
+			<ui:include src="includes/top.xhtml" />
+		</p:layoutUnit>
+
+		<p:layoutUnit position="west" size="210" header="Menu Principal" resizable="true" closable="false" collapsible="true">
+			<ui:include src="includes/menu.xhtml"/>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+
+			<h:form id="form" rendered="true">
+
+				<p:breadCrumb>
+					<p:menuitem value="" />
+					<p:menuitem value="Consulta" />
+					<p:menuitem value="Horário" />
+				</p:breadCrumb>
+
+				<p:fieldset legend="Tarde" styleClass="fildSet">
+
+
+					<p:growl id="messages" autoUpdate="true"/>
+
+					<p:dataTable var="horario"
+						value="#{horarioTardeController.listaHorario}" editable="true"
+						editMode="cell" cellSeparator=" \/ " 
+						rowKey="#{horario.idHorarioTarde}"
+						selection="#{horarioTardeController.horarioSelecionada}"
+						selectionMode="single">
+
+						<p:ajax event="rowSelect" listener="#{horarioTardeController.onRowSelect}" />
+						<p:ajax event="cellEdit" listener="#{horarioTardeController.onCellEdit}"  />
+
+						<p:column headerText="Hora">
+							<h:outputText value="#{horario.horaTarde}" />
+							<f:facet name="header">
+								<h:outputText value="Hora" />
+							</f:facet>
+						</p:column>
+
+						<p:column headerText="Segunda-Feira" style="width:20%">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText  value="#{horario.segundaTarde}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText id="input" value="#{horario.segundaTarde}"
+										style="width:96%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Terça-Feira" style="width:20%">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{horario.tercaTarde}"  />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{horario.tercaTarde}" style="width:96%"
+										label="Terça" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Quarta-Feira" style="width:20%">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{horario.quartaTarde}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{horario.quartaTarde}" style="width:96%"
+										label="Quarta" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						
+						<p:column headerText="Quinta-Feira" style="width:20%">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{horario.quintaTarde}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText   value="#{horario.quintaTarde}" style="width:96%"
+										label="Quinta" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Sexta-Feira" style="width:20%">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText  value="#{horario.sextaTarde}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText  value="#{horario.sextaTarde}" style="width:96%"
+										label="Sexta" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+					</p:dataTable>
+
+				</p:fieldset>
+			</h:form>
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>

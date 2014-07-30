@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13903113233520" configfile="/Brain/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" id="pf14001626731620" outlinks="pf14001626731621 pf14001626731622 pf14001626731623 pf14001626731624" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.jsf" id="pf14001626731625" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14001626731621" path="/index.jsf"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/index.jsf" id="pf14001626731626" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf14001626731622" path="/pages/index.jsf"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/user/userPage.jsf" id="pf14001626731627" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf14001626731623" path="/pages/user/userPage.jsf"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/admin/adminPage.jsf" id="pf14001626731628" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf14001626731624" path="/pages/admin/adminPage.jsf"/>
+  <links id="pf14001626731621" target="pf14001626731625" source="pf14001626731620"/>
+  <links id="pf14001626731622" target="pf14001626731626" source="pf14001626731620"/>
+  <links id="pf14001626731623" target="pf14001626731627" source="pf14001626731620"/>
+  <links id="pf14001626731624" target="pf14001626731628" source="pf14001626731620"/>
+</pageflow:Pageflow>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="css/principal.css" />
+</h:head>
+<h:body> 
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" size="54">
+			<ui:include src="includes/top.xhtml" />
+		</p:layoutUnit>
+
+		<p:layoutUnit position="west" size="210" header="Menu Principal" resizable="true" closable="false" collapsible="true">
+			<ui:include src="includes/menu.xhtml"/>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+			<h:form id="form">
+				
+					<h:panelGrid id="barraBotao" styleClass="barraBotao">
+						<p:toolbar styleClass="barraBotao">
+							<p:toolbarGroup align="left">
+								<p:commandButton id="btnNovo" value="Novo"
+									icon="ui-icon-document" action="#{pessoaController.novo}"
+									update=":form:panel" ajax="false" immediate="true"/>
+								<p:separator />
+								<p:commandButton id="btnSalvar"
+									value="#{pessoaController.pessoaSelecionada == null ? 'Salvar': 'Atualizar'}"
+									icon="ui-icon-disk" action="#{pessoaController.salvar}"
+									update=":form :formDataTable:dataTable " />
+								<p:separator />
+								<p:commandButton id="btnExcluir" value="Excluir"
+									disabled="#{pessoaController.pessoaSelecionada == null ? true : false}"
+									icon="ui-icon-trash" oncomplete="confirmation.show()" immediate="true">
+								</p:commandButton>
+							</p:toolbarGroup>
+						</p:toolbar>
+
+						<p:dialog id="Excluir" header="Excluir" widgetVar="confirmation" >
+							<h:outputText
+								value="Você gostaria de Excluir o #{pessoaController.pessoa.nome}?" />
+							<p:separator />
+							<p:commandButton id="confirm" value="Sim"
+								oncomplete="confirmation.hide()"
+								actionListener="#{pessoaController.deletar}"
+								update=":formDataTable:dataTable :form:panel" immediate="true"/>
+							<p:commandButton id="decline" value="Não"
+								onclick="confirmation.hide()" type="button" />
+		
+						</p:dialog>
+					</h:panelGrid>
+				
+				<p:fieldset legend="Cadastro Pessoas" styleClass="fildSet">
+
+					<h:panelGrid columns="2" cellpadding="5" id="panel" styleClass="bootom">
+						<h:outputText value="Nome: " />
+						<p:inputText id="txtNome" value="#{pessoaController.pessoa.nome}" label="Nome" placeholder="Nome" required="false" converter="EmptyToNullConverter"/>
+						<h:outputText value="Sobrenome: " />
+						<p:inputText id="txtSobrenome" value="#{pessoaController.pessoa.sobrenome}" label="Sobrenome" placeholder="Sobrenome" required="true" converter="EmptyToNullConverter"/>
+						<h:outputText value="E-mail: " />
+						<p:inputText id="txtEmail" value="#{pessoaController.pessoa.email}" label="E-mail" placeholder="nome@gmail.com.br"  required="true" converter="EmptyToNullConverter"  />
+						<h:outputText value="Idade: " />
+						<p:inputText id="txtIdade" value="#{pessoaController.pessoa.idade}" label="Idade" placeholder="21"  required="true" converter="EmptyToNullConverter" />
+						
+					</h:panelGrid>
+
+				</p:fieldset>
+			</h:form>
+
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="south" size="250" header="Arquivos Salvos" minSize="250"  resizable="true" collapsible="true" effect="drop">
+			<h:form id="formDataTable">
+				<p:dataTable id="dataTable" var="pessoas" widgetVar="pessoaTable"
+						value="#{pessoaController.listaPessoa}" border="1" cellspacing="0"
+						cellpadding="2" paginator="true" rows="5" paginatorPosition="top"
+						rowsPerPageTemplate="5,10,30,"
+						rowKey="#{pessoas.id}"
+						selection="#{pessoaController.pessoaSelecionada}"
+						selectionMode="single"
+						rowStyleClass="#{empty linha or linha mod 2 ne 0 ? 'even-row' : 'odd-row'}"
+						emptyMessage="Registro não encontrado, Favor verificar !">
+	
+						<p:ajax event="rowSelect"
+							listener="#{pessoaController.onRowSelect}" update=":form" />
+						<p:ajax event="rowUnselect"
+							listener="#{pessoaController.onRowUnselect}" update=":form"/>
+	
+						<f:facet name="footer">
+							<h:commandLink>  
+					            <p:graphicImage value="css/imagens/pdf.png" styleClass="imgPDF"/> 
+					            <p:dataExporter type="pdf" target="dataTable" fileName="listaPessoa"/>  
+					        </h:commandLink>
+					        
+							<h:commandLink>  
+					            <p:graphicImage value="css/imagens/excel.png" styleClass="imgPDF"/> 
+					            <p:dataExporter type="xls" target="dataTable" fileName="listaPessoa"/>  
+					        </h:commandLink>
+					         
+							<h:commandLink>  
+					            <p:graphicImage value="css/imagens/csv.png"  styleClass="imgPDF"/> 
+					            <p:dataExporter type="csv" target="dataTable" fileName="listaPessoa"/>  
+					        </h:commandLink> 
+						</f:facet>
+						
+						<p:column headerText="Nome" sortBy="nome" filterBy="#{pessoas.nome}">
+							<h:outputText value="#{pessoas.nome}" />
+							<f:facet name="header">
+								<h:outputText value="Nome" />
+							</f:facet>
+						</p:column>
+						
+						<p:column headerText="Sobrenome" sortBy="sobrenome" filterBy="#{pessoas.sobrenome}">
+							<h:outputText value="#{pessoas.sobrenome}"/>
+							<f:facet name="header">
+								<h:outputText value="Sobrenome" />
+							</f:facet>
+						</p:column>
+	
+						<p:column headerText="Email" sortBy="email" filterBy="#{pessoas.email}">
+							<h:outputText value="#{pessoas.email}" />
+							<f:facet name="header">
+								<h:outputText value="Email" />
+							</f:facet>
+						</p:column>
+	
+						<p:column headerText="Idade" sortBy="idade" filterBy="#{pessoas.idade}">
+							<h:outputText value="#{pessoas.idade}" />
+							<f:facet name="header">
+								<h:outputText value="Idade" />
+							</f:facet>
+						</p:column>
+					</p:dataTable>  
+				</h:form>
+ 		</p:layoutUnit>  
+		
+	</p:layout>
+</h:body>
+</html>

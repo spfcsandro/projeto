@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Login - Spring Security</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style type="text/css">
+		body {
+			font-family: "ars-maquette-web", "Myriad Pro", "Gill Sans",
+				"Lucida Sans", Verdana, Geneva, sans-serif;
+			font-size: 11px;
+			background: #CCC;
+			margin: 18.2% 0;
+			margin-top: 20.2%;
+			margin-left: 41.5%;
+		}
+		}
+	</style>
+</h:head>
+<h:body>
+	<h:form>
+		<p:growl id="growl" autoUpdate="true" life="4500" />
+		<p:panelGrid columns="2">
+			<f:facet name="header">  
+ 				<h:graphicImage url="pages/css/imagens/logo.png" height="30" width="70" style="margin-left:20px; margin-top:3px;"/> 
+		    </f:facet>
+			<h:outputText value="Username: " />
+			<p:inputText value="#{authenticator.username}" />
+			<h:outputText value="Password: " />
+			<p:inputText value="#{authenticator.password}" type="password" />
+			<f:facet name="footer">
+				<p:commandButton value="Entrar" icon="ui-icon-check" action="#{authenticator.login}" />
+				<p:commandButton value="Limpar" icon="ui-icon-trash" type="reset" />
+			</f:facet>
+		</p:panelGrid>
+	</h:form>
+</h:body>
+</html>

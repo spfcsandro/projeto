@@ -1,0 +1,25 @@
+body {
+	font-family: "ars-maquette-web", "Myriad Pro", "Gill Sans",
+		"Lucida Sans", Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	background-color: #8B8989;
+}
+
+.barraBotao {
+	width: 98.5%;
+	margin-left: 8px;
+}
+
+.bootom{
+	bottom: 100px;
+}
+.fildSet {
+	margin-top: 30px;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+.imgPDF {
+	width: 22px; /* largura */
+	height: 22px; /* altura */
+}

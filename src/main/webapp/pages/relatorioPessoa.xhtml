@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:ui="http://java.sun.com/jsf/facelets"  
+	>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="css/principal.css" />
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" size="47">
+			<ui:include src="includes/top.xhtml" />
+		</p:layoutUnit>
+
+		<p:layoutUnit position="west" size="210" header="Menu Principal" resizable="true" closable="false" collapsible="true">
+			<ui:include src="includes/menu.xhtml" />
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+			<h:form id="cadastroPessoas" rendered="true">
+
+				<p:breadCrumb>
+					<p:menuitem value="" />
+					<p:menuitem value="Relatório" />
+					<p:menuitem value="Pessoas" />
+				</p:breadCrumb>
+	
+			<p:fieldset legend="Saida" styleClass="fildSet">
+			
+					<h:panelGrid columns="2" cellpadding="5" id="painelSaida" rendered="true">
+						<h:outputText value="Tipo de Saida: " />
+						<p:selectOneMenu value="#{relatorioPessoa.pessoa.relatorio}">
+							<f:selectItem itemLabel="PDF" itemValue="PDF" />
+							<f:selectItem itemLabel="Excel" itemValue="XLS" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					
+					<h:panelGrid columns="2" cellpadding="5" id="painelPessoas"
+						rendered="true">
+						<h:outputText value="Nome: " />
+						<p:inputText value="#{relatorioPessoa.pessoa.nome}" label="Nome"
+							required="false" />
+					</h:panelGrid>
+					<p:commandButton value="Imprimir"  action="#{relatorioPessoa.tipoSaida}" icon="ui-icon-document" ajax="false"
+					 onclick="this.form.target='_blank'" style="margin-top: 20px;"/>
+			</p:fieldset>
+			</h:form>
+			
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>
